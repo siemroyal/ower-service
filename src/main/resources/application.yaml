@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: ownerservice
+  #JDBC connection only for Liquibase
+  # Reactive runtime connection
+  r2dbc:
+    url: r2dbc:postgresql://localhost:5436/owner
+    username: owner
+    password: owner
+
+  # JDBC connection only for Liquibase
+  datasource:
+    url: jdbc:postgresql://localhost:5436/owner
+    username: owner
+    password: owner
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.yaml
