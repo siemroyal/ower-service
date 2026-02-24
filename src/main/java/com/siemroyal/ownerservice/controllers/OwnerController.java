@@ -1,25 +1,22 @@
 package com.siemroyal.ownerservice.controllers;
 
-import com.siemroyal.ownerservice.models.Owner;
+import com.siemroyal.ownerservice.dtos.OwnerRegisterRequest;
+import com.siemroyal.ownerservice.dtos.OwnerResponse;
 import com.siemroyal.ownerservice.services.OwnerService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Mono;
 
 @RestController
-@RequestMapping("api/owners")
+@RequiredArgsConstructor
+@RequestMapping("/api/v1/owners")
 public class OwnerController {
     private final OwnerService ownerService;
-
-    public OwnerController(OwnerService ownerService) {
-        this.ownerService = ownerService;
-    }
-
     @PostMapping
-    public Owner createOwner(@RequestParam String email,
-                             @RequestParam String phone,
-                             @RequestParam String status) {
-        return ownerService.createOwner(email, phone, status);
+    @ResponseStatus(HttpStatus.CREATED)
+    public Mono<OwnerResponse> register(@Valid @RequestBody OwnerRegisterRequest request) {
+        return ownerService.register(request);
     }
 }
